@@ -21,7 +21,7 @@ const __dirname = path.resolve();
 const app = express();
 
 app.use(cors({
-    origin: '*',
+    origin: '*', // Allow frontend to access
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true 
 }));
