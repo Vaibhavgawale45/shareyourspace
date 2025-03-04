@@ -23,8 +23,8 @@ const app = expres();
 app.use(expres.json());
 app.use(cookieParser());
 
-app.listen(3000, () => {
-  console.log("server is running on port 3000");
+app.listen(4000, () => {
+  console.log("server is running on port 4000");
 });
 
 app.use("/api/user", userRouter);
