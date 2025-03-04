@@ -26,12 +26,13 @@ export default function Listing() {
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
   const [mobileNumber, setMobileNumber] = useState();
+  const url = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/listing/get/${params.listingId}`);
+        const res = await fetch(`${url}/api/listing/get/${params.listingId}`);
         const data = await res.json();
         if (data.success === false) {
           setError(true);

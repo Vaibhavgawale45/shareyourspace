@@ -31,6 +31,8 @@ export default function Profile() {
   const [updatesucess, setUpdatesuccess] = useState(false);
   const [showListingError, setShowListingError] = useState(false);
   const [userListings, setUserListings] = useState([]);
+  const url = import.meta.env.VITE_API_BASE_URL;
+  const token = localStorage.getItem("access_token");
   //updatesucess
   const dispatch = useDispatch();
 
@@ -73,10 +75,11 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`${url}/api/user/update/${currentUser._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -96,8 +99,11 @@ export default function Profile() {
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+      const res = await fetch(`${url}/api/user/delete/${currentUser._id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       const data = await res.json();
@@ -116,13 +122,14 @@ export default function Profile() {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await fetch("/api/auth/signout");
+      const res = await fetch(`${url}/api/auth/signout`);
       const data = await res.json();
       if (data.success === false) {
         dispatch(signOutUserFailure(data.message));
         return;
       }
       dispatch(signOutUserSuccess(data));
+      localStorage.removeItem("access_token");
     } catch (error) {
       dispatch(signOutUserFailure(error.message));
     }
@@ -131,13 +138,23 @@ export default function Profile() {
   const handleShowListings = async () => {
     try {
       setShowListingError(false);
-      const res = await fetch(`api/user/listings/${currentUser._id}`);
+
+      const res = await fetch(`${url}/api/user/listings/${currentUser._id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       const data = await res.json();
 
-      if (data.success == false) {
+      if (!res.ok) {
         setShowListingError(true);
         return;
       }
+
       setUserListings(data);
     } catch (error) {
       setShowListingError(true);
@@ -146,8 +163,11 @@ export default function Profile() {
 
   const handleListingDelete = async (listingId) => {
     try {
-      const res = await fetch(`/api/listing/delete/${listingId}`, {
+      const res = await fetch(`${url}/api/listing/delete/${listingId}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       const data = res.json();
@@ -221,7 +241,7 @@ export default function Profile() {
           onChange={handleChange}
         />
 
-<input
+        <input
           type="mobile"
           placeholder="mobile"
           className="border p-3 rounded-lg"

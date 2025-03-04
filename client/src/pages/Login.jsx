@@ -19,14 +19,14 @@ function Login() {
       [e.target.id]: e.target.value,
     });
   };
+  const url = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       dispatch(signInStart());
       const res = await fetch(
-        "/api/auth/signin",
-
+        `${url}/api/auth/signin`,
         {
           method: "POST",
           headers: {
@@ -36,12 +36,12 @@ function Login() {
         }
       );
       const data = await res.json();
-      console.log(data);
+      console.log(data.token);
       if (data.success === false) {
         dispatch(signInFailure(data.message));
-
         return;
       }
+      localStorage.setItem('access_token', data.token);
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {

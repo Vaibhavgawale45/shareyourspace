@@ -18,13 +18,14 @@ export default function SignInn() {
       [e.target.id]: e.target.value,
     });
   };
+  const url = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       dispatch(signInStart());
       const res = await fetch(
-        "/api/auth/signin",
+        `${url}/api/auth/signin`,
 
         {
           method: "POST",

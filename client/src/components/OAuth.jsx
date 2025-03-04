@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 export default function OAuth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_API_BASE_URL;
   const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
 
-      const res = await fetch("/api/auth/google", {
+      const res = await fetch(`${url}/api/auth/google`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

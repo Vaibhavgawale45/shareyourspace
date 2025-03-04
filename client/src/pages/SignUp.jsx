@@ -12,13 +12,14 @@ function SignUp() {
       [e.target.id]: e.target.value,
     });
   };
+  const url = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
       const res = await fetch(
-        "/api/auth/signup",
+        `${url}/api/auth/signup`,
 
         {
           method: "POST",

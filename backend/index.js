@@ -21,9 +21,9 @@ const __dirname = path.resolve();
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow frontend to access
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true // If using cookies
+    credentials: true 
 }));
 
 app.use(express.json());

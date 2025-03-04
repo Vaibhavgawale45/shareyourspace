@@ -7,11 +7,19 @@ export default function Contact({ listing, mobileNumber }) {
   const onChange = (e) => {
     setMessage(e.target.value);
   };
-
+  const url = import.meta.env.VITE_API_BASE_URL;
+  const token = localStorage.getItem("access_token");
   useEffect(() => {
     const fetchLandlord = async () => {
       try {
-        const res = await fetch(`/api/user/${listing.userRef}`);
+        const res = await fetch(`${url}/api/user/${listing.userRef}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await res.json();
         setLandlord(data);
       } catch (error) {
