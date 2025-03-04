@@ -10,6 +10,7 @@ function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [vacantRoom, setVacantRoom] = useState([]);
   const [roomateNeeded, setRoomateNeeded] = useState([]);
+  const url = import.meta.env.VITE_API_BASE_URL;
   console.log(offerListings);
 
   SwiperCore.use([Navigation]);
@@ -17,7 +18,7 @@ function Home() {
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?offer=true&limit=6");
+        const res = await fetch(`${url}/api/listing/get?offer=true&limit=6`);
         const data = await res.json();
         setOfferListings(data);
         fetchRoomateNeededListings();
@@ -28,7 +29,7 @@ function Home() {
 
     const fetchRoomateNeededListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=roomate_needed&limit=6");
+        const res = await fetch(`${url}/api/listing/get?type=roomate_needed&limit=6`);
         const data = await res.json();
         setRoomateNeeded(data);
         fetchVacantRoomListings();
@@ -39,7 +40,7 @@ function Home() {
 
     const fetchVacantRoomListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=vacant_room&limit=6");
+        const res = await fetch(`${url}/api/listing/get?type=vacant_room&limit=6`);
         const data = await res.json();
         setVacantRoom(data);
       } catch (error) {
