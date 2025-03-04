@@ -74,7 +74,7 @@ export default function Contact({ listing, mobileNumber }) {
             className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3"
             onClick={() => openWhatsappOrder()}
           >
-            Order Now
+            Book Now
           </button>
           {/* <textarea
             name="message"
